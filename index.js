@@ -27,5 +27,11 @@ app.get('/', (req, res) => res.send('DocAppoint server running'));
 app.use('/doctors', require('./routes/doctorRoutes'));
 app.use('/appointments', require('./routes/appointmentRoutes'));
 
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+// Only start a persistent server in local development.
+// On Vercel (serverless), the app is imported and invoked as a function.
+if (require.main === module) {
+  const PORT = process.env.PORT || 5000;
+  app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+}
+
+module.exports = app;
